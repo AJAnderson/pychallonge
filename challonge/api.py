@@ -42,7 +42,8 @@ def fetch(method, uri, params_prefix=None, **params):
     if not response.ok:
         raise response.raise_for_status()
 
-    return response.text
+    # call replace to remove non-breaking spaces, otherwise ElementTree.fromstring will fail.
+    return response.text.replace(u'\xa0', u' ')
 
 def fetch_and_parse(method, uri, params_prefix=None, **params):
     """Fetch the given uri and return the root Element of the response."""
